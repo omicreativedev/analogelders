@@ -94,12 +94,6 @@ Several sections of this site reference the Order's legal counsel, described as 
 
 ---
 
-## License
-
-This project is open source under the MIT License. Use it, fork it, adapt it. If you build something good with it, the Order will note it favorably in the permanent record.
-
----
-
 *The Order neither confirms nor denies that it predates TCP/IP.*
 
 *The Elders are typing...*

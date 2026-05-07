@@ -11,7 +11,7 @@ This is the official website of the **Ancient Order of Analog Elders**, an inter
 
 We safeguard the ancient arts of sustained attention, contextual reasoning, physical media stewardship, and coherent written correspondence. We also invented the internet. This is not up for debate.
 
-The site lives at: **[your GitHub Pages URL here]**
+The site lives at: **[https://omicreativedev.github.io/analogelders/](https://omicreativedev.github.io/analogelders/)** (for now)
 
 ---
 

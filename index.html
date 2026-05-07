@@ -1,1 +1,1256 @@
-lilz
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Ancient Order of Analog Elders</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --gold-dark: #8b6914;
+    --gold-pale: #f5e6b8;
+    --cream: #faf3e0;
+    --parchment: #f0e2c0;
+    --parchment-dark: #d9c8a0;
+    --ink: #1a1208;
+    --ink-light: #3d2e0e;
+    --crimson: #7a1c1c;
+    --crimson-light: #a02020;
+    --shadow: rgba(26, 18, 8, 0.6);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--ink);
+    color: var(--cream);
+    font-family: 'EB Garamond', serif;
+    font-size: 17px;
+    line-height: 1.75;
+    background-image:
+      url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a84c' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  /* ===== ORNAMENTAL DIVIDERS ===== */
+  .ornament {
+    text-align: center;
+    color: var(--gold);
+    font-size: 1.4rem;
+    letter-spacing: 0.5rem;
+    margin: 1rem 0;
+    opacity: 0.85;
+  }
+  .ornament-line {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 1.5rem auto;
+    max-width: 600px;
+  }
+  .ornament-line::before,
+  .ornament-line::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+  }
+  .ornament-line span {
+    color: var(--gold);
+    font-size: 1.2rem;
+    white-space: nowrap;
+  }
+
+  /* ===== NAVIGATION ===== */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    background: linear-gradient(to bottom, #0f0a02, #1a1208ee);
+    border-bottom: 2px solid var(--gold-dark);
+    box-shadow: 0 2px 30px rgba(0,0,0,0.8);
+  }
+  .nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+  .nav-logo {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    color: var(--gold);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    line-height: 1.2;
+    text-decoration: none;
+  }
+  .nav-logo span {
+    display: block;
+    font-size: 0.65rem;
+    color: var(--gold-dark);
+    letter-spacing: 0.2em;
+  }
+  .nav-links {
+    display: flex;
+    gap: 0;
+    list-style: none;
+  }
+  .nav-links a {
+    display: block;
+    padding: 0.5rem 0.9rem;
+    color: var(--parchment);
+    text-decoration: none;
+    font-family: 'Cinzel', serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+    border-bottom: 2px solid transparent;
+  }
+  .nav-links a:hover {
+    color: var(--gold-light);
+    border-bottom-color: var(--gold);
+  }
+
+  /* Hamburger */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 6px;
+    background: none;
+    border: none;
+  }
+  .hamburger span {
+    display: block;
+    width: 26px;
+    height: 2px;
+    background: var(--gold);
+    transition: all 0.3s;
+    transform-origin: center;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .mobile-menu {
+    display: none;
+    flex-direction: column;
+    background: #0f0a02;
+    border-top: 1px solid var(--gold-dark);
+    padding: 1rem 0;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    padding: 0.7rem 2rem;
+    color: var(--parchment);
+    text-decoration: none;
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+    transition: color 0.2s, background 0.2s;
+  }
+  .mobile-menu a:hover { color: var(--gold); background: rgba(201,168,76,0.05); }
+
+  @media (max-width: 860px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 100px 2rem 4rem;
+    position: relative;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(201,168,76,0.08) 0%, transparent 70%),
+      radial-gradient(ellipse at 20% 80%, rgba(122,28,28,0.15) 0%, transparent 60%);
+    overflow: hidden;
+  }
+
+  /* Decorative corner ornaments */
+  .hero::before, .hero::after {
+    content: '❧';
+    position: absolute;
+    font-size: 4rem;
+    color: var(--gold-dark);
+    opacity: 0.3;
+  }
+  .hero::before { top: 80px; left: 2rem; }
+  .hero::after { bottom: 2rem; right: 2rem; transform: scaleX(-1); }
+
+  .hero-seal {
+    width: 140px;
+    height: 140px;
+    margin-bottom: 2rem;
+    animation: sealRotate 60s linear infinite;
+  }
+  @keyframes sealRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .hero h1 {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(1.6rem, 4vw, 3.2rem);
+    color: var(--gold-light);
+    text-shadow: 0 0 40px rgba(201,168,76,0.4), 2px 2px 0 var(--ink);
+    letter-spacing: 0.05em;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+  }
+  .hero-subtitle {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(0.7rem, 1.5vw, 0.95rem);
+    color: var(--gold-dark);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  .hero-latin {
+    font-style: italic;
+    color: var(--parchment-dark);
+    font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+    margin-bottom: 2.5rem;
+    opacity: 0.8;
+  }
+  .hero-tagline {
+    max-width: 640px;
+    font-size: clamp(1rem, 1.8vw, 1.2rem);
+    color: var(--cream);
+    line-height: 1.8;
+    margin-bottom: 3rem;
+  }
+  .hero-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .btn {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.85rem 2rem;
+    text-decoration: none;
+    transition: all 0.25s;
+    cursor: pointer;
+    border: none;
+  }
+  .btn-gold {
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-dark));
+    color: var(--ink);
+    box-shadow: 0 2px 20px rgba(201,168,76,0.3), inset 0 1px 0 rgba(255,255,255,0.2);
+  }
+  .btn-gold:hover {
+    background: linear-gradient(135deg, var(--gold), var(--gold-light), var(--gold));
+    box-shadow: 0 4px 30px rgba(201,168,76,0.5);
+    transform: translateY(-1px);
+  }
+  .btn-outline {
+    background: transparent;
+    color: var(--gold);
+    border: 1px solid var(--gold-dark);
+  }
+  .btn-outline:hover {
+    background: rgba(201,168,76,0.08);
+    border-color: var(--gold);
+  }
+
+  /* ===== SECTIONS ===== */
+  section {
+    padding: 5rem 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .section-full {
+    max-width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .section-full .section-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+  }
+  .section-header h2 {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(1.3rem, 3vw, 2rem);
+    color: var(--gold-light);
+    text-shadow: 0 0 30px rgba(201,168,76,0.3);
+    margin-bottom: 0.5rem;
+  }
+  .section-header p {
+    color: var(--parchment-dark);
+    font-style: italic;
+    font-size: 1rem;
+  }
+
+  /* ===== PARCHMENT PANELS ===== */
+  .parchment-panel {
+    background: linear-gradient(135deg, #2a1f08, #1e1606);
+    border: 1px solid var(--gold-dark);
+    position: relative;
+    padding: 2.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .parchment-panel::before {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border: 1px solid rgba(201,168,76,0.2);
+    pointer-events: none;
+  }
+  .corner-ornament {
+    position: absolute;
+    color: var(--gold-dark);
+    font-size: 1.2rem;
+    opacity: 0.7;
+    line-height: 1;
+  }
+  .corner-ornament.tl { top: 8px; left: 8px; }
+  .corner-ornament.tr { top: 8px; right: 8px; transform: scaleX(-1); }
+  .corner-ornament.bl { bottom: 8px; left: 8px; transform: scaleY(-1); }
+  .corner-ornament.br { bottom: 8px; right: 8px; transform: scale(-1); }
+
+  /* ===== HISTORY / ABOUT ===== */
+  #history { background: linear-gradient(to bottom, transparent, rgba(26,18,8,0.3), transparent); }
+
+  .history-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+  @media (max-width: 700px) { .history-grid { grid-template-columns: 1fr; } }
+
+  /* ===== RANKS ===== */
+  .ranks-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+  .rank-item {
+    background: linear-gradient(135deg, #231808, #1a1005);
+    border: 1px solid rgba(201,168,76,0.3);
+    padding: 1.2rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .rank-item:hover {
+    border-color: var(--gold);
+    box-shadow: 0 0 20px rgba(201,168,76,0.1);
+  }
+  .rank-num {
+    font-family: 'Cinzel', serif;
+    font-size: 1.8rem;
+    color: var(--gold-dark);
+    min-width: 2.5rem;
+    text-align: center;
+    opacity: 0.6;
+  }
+  .rank-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    color: var(--gold-light);
+    letter-spacing: 0.08em;
+    line-height: 1.4;
+  }
+
+  /* ===== COMPETENCIES ===== */
+  .competency-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+  .competency-card {
+    background: linear-gradient(160deg, #251a07, #1a1005);
+    border: 1px solid var(--gold-dark);
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .competency-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .competency-card:hover::after { opacity: 1; }
+  .competency-card h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+  }
+  .competency-card ul {
+    list-style: none;
+    color: var(--parchment);
+  }
+  .competency-card li {
+    padding: 0.3rem 0;
+    padding-left: 1.2rem;
+    position: relative;
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+  .competency-card li::before {
+    content: '⚜';
+    position: absolute;
+    left: 0;
+    color: var(--gold-dark);
+    font-size: 0.6rem;
+    top: 0.45rem;
+  }
+
+  /* ===== SCROLLS (internet safety, T&C, etc.) ===== */
+  .scrolls-accordion { display: flex; flex-direction: column; gap: 0.75rem; }
+  .scroll-item {
+    border: 1px solid var(--gold-dark);
+    background: linear-gradient(135deg, #231808, #1a1005);
+  }
+  .scroll-trigger {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.1rem 1.5rem;
+    background: none;
+    border: none;
+    color: var(--gold-light);
+    font-family: 'Cinzel', serif;
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-align: left;
+  }
+  .scroll-trigger:hover { color: var(--gold); }
+  .scroll-trigger .arrow {
+    font-size: 0.7rem;
+    transition: transform 0.3s;
+    color: var(--gold-dark);
+    flex-shrink: 0;
+  }
+  .scroll-trigger.open .arrow { transform: rotate(180deg); }
+  .scroll-content {
+    display: none;
+    padding: 0 1.5rem 1.5rem;
+    color: var(--parchment);
+    font-size: 0.95rem;
+    line-height: 1.75;
+    border-top: 1px solid rgba(201,168,76,0.15);
+  }
+  .scroll-content.open { display: block; }
+  .scroll-content p { margin-bottom: 0.75rem; }
+  .scroll-content strong { color: var(--gold-light); font-style: normal; }
+
+  /* ===== TUTORIALS ===== */
+  #tutorials {
+    background: linear-gradient(to bottom, rgba(26,18,8,0.3), transparent, rgba(26,18,8,0.3));
+  }
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+  .video-card {
+    border: 1px solid var(--gold-dark);
+    background: #100c02;
+    overflow: hidden;
+  }
+  .video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    background: #000;
+  }
+  .video-wrapper iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border: none;
+  }
+  .video-info {
+    padding: 1rem 1.2rem;
+  }
+  .video-info h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 0.78rem;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+  .video-info p {
+    font-size: 0.85rem;
+    color: var(--parchment-dark);
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  /* ===== HONORARY QUALIFICATIONS ===== */
+  .qual-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+  }
+  .qual-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid rgba(201,168,76,0.15);
+    background: rgba(201,168,76,0.02);
+    font-size: 0.9rem;
+    color: var(--parchment);
+    line-height: 1.5;
+    transition: border-color 0.2s;
+  }
+  .qual-item:hover { border-color: rgba(201,168,76,0.4); }
+  .qual-item::before {
+    content: '✦';
+    color: var(--gold-dark);
+    font-size: 0.6rem;
+    margin-top: 0.4rem;
+    flex-shrink: 0;
+  }
+
+  /* ===== EXAMINATION ===== */
+  .exam-trials {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+  .trial-card {
+    padding: 1.5rem;
+    border: 1px solid rgba(201,168,76,0.3);
+    background: linear-gradient(135deg, #1e1506, #140f04);
+    text-align: center;
+    transition: all 0.2s;
+  }
+  .trial-card:hover {
+    border-color: var(--gold);
+    background: linear-gradient(135deg, #2a1f09, #1e1606);
+  }
+  .trial-num {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 2rem;
+    color: var(--gold-dark);
+    display: block;
+    margin-bottom: 0.5rem;
+    opacity: 0.7;
+  }
+  .trial-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    color: var(--gold-light);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    line-height: 1.4;
+  }
+
+  /* ===== MOTTOES ===== */
+  #mottoes {
+    text-align: center;
+  }
+  .motto-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .motto-item {
+    padding: 1rem 2rem;
+    font-family: 'Cinzel', serif;
+    font-size: clamp(0.85rem, 1.5vw, 1.05rem);
+    color: var(--gold-light);
+    letter-spacing: 0.1em;
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+    transition: all 0.2s;
+    cursor: default;
+  }
+  .motto-item:last-child { border-bottom: none; }
+  .motto-item:hover {
+    background: rgba(201,168,76,0.05);
+    color: var(--gold);
+    letter-spacing: 0.15em;
+  }
+  .motto-item em {
+    display: block;
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.8em;
+    color: var(--parchment-dark);
+    letter-spacing: 0.05em;
+    margin-top: 0.2rem;
+  }
+
+  /* ===== FOOTER ===== */
+  footer {
+    border-top: 2px solid var(--gold-dark);
+    background: #0a0700;
+    text-align: center;
+    padding: 3rem 2rem;
+    color: var(--parchment-dark);
+    font-size: 0.85rem;
+  }
+  footer .footer-logo {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.1rem;
+    color: var(--gold-dark);
+    margin-bottom: 1rem;
+  }
+  footer p { opacity: 0.6; margin-bottom: 0.3rem; line-height: 1.6; }
+  footer a { color: var(--gold-dark); text-decoration: none; }
+  footer a:hover { color: var(--gold); }
+
+  /* ===== UTILITY ===== */
+  .text-center { text-align: center; }
+  .mt-2 { margin-top: 2rem; }
+  .crimson { color: var(--crimson-light); }
+  .gold { color: var(--gold); }
+  .italic { font-style: italic; }
+
+  /* Seal SVG */
+  .seal-svg text { font-family: 'Cinzel', serif; }
+
+  /* Flicker animation for candle effect */
+  @keyframes flicker {
+    0%, 100% { opacity: 1; }
+    92% { opacity: 1; }
+    93% { opacity: 0.85; }
+    94% { opacity: 1; }
+    96% { opacity: 0.9; }
+    97% { opacity: 1; }
+  }
+  .hero h1 { animation: flicker 8s ease-in-out infinite; }
+
+  /* Scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (max-width: 600px) {
+    section { padding: 3.5rem 1.2rem; }
+    .parchment-panel { padding: 1.5rem 1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== NAVIGATION ===== -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#top" class="nav-logo">
+      ⚜ Ancient Order of Analog Elders
+      <span>Custodes Memoriae et Attentionis</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#history">Our History</a></li>
+      <li><a href="#competencies">Competencies</a></li>
+      <li><a href="#safety">Sacred Scrolls</a></li>
+      <li><a href="#tutorials">Tutorials</a></li>
+      <li><a href="#ranks">Ranks</a></li>
+      <li><a href="#examination">Trials</a></li>
+      <li><a href="#mottoes">Mottoes</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#history" onclick="closeMobile()">Our History</a>
+    <a href="#competencies" onclick="closeMobile()">Competencies</a>
+    <a href="#safety" onclick="closeMobile()">Sacred Scrolls</a>
+    <a href="#tutorials" onclick="closeMobile()">Tutorials</a>
+    <a href="#ranks" onclick="closeMobile()">Ranks</a>
+    <a href="#examination" onclick="closeMobile()">Trials</a>
+    <a href="#mottoes" onclick="closeMobile()">Mottoes</a>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<div id="top">
+<section class="hero">
+  <!-- Animated rotating seal -->
+  <svg class="hero-seal" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="100" cy="100" r="95" fill="none" stroke="#8b6914" stroke-width="1.5"/>
+    <circle cx="100" cy="100" r="87" fill="none" stroke="#c9a84c" stroke-width="0.5"/>
+    <circle cx="100" cy="100" r="78" fill="none" stroke="#8b6914" stroke-width="1"/>
+    <!-- Outer text path -->
+    <path id="circle-text" d="M 100,100 m -75,0 a 75,75 0 1,1 150,0 a 75,75 0 1,1 -150,0" fill="none"/>
+    <text font-family="Cinzel, serif" font-size="8.5" fill="#c9a84c" letter-spacing="3">
+      <textPath href="#circle-text" startOffset="0%">✦ ANCIENT ORDER OF ANALOG ELDERS ✦ EST. BEFORE THE ALGORITHM ✦</textPath>
+    </text>
+    <!-- Center emblem -->
+    <text x="100" y="85" text-anchor="middle" font-family="serif" font-size="36" fill="#8b6914">⚜</text>
+    <text x="100" y="108" text-anchor="middle" font-family="Cinzel, serif" font-size="7" fill="#c9a84c" letter-spacing="1">CUSTODES</text>
+    <text x="100" y="118" text-anchor="middle" font-family="Cinzel, serif" font-size="7" fill="#c9a84c" letter-spacing="1">MEMORIAE</text>
+    <!-- Decorative dots -->
+    <circle cx="100" cy="20" r="2" fill="#8b6914"/>
+    <circle cx="100" cy="180" r="2" fill="#8b6914"/>
+    <circle cx="20" cy="100" r="2" fill="#8b6914"/>
+    <circle cx="180" cy="100" r="2" fill="#8b6914"/>
+    <circle cx="35" cy="35" r="1.5" fill="#8b6914"/>
+    <circle cx="165" cy="35" r="1.5" fill="#8b6914"/>
+    <circle cx="35" cy="165" r="1.5" fill="#8b6914"/>
+    <circle cx="165" cy="165" r="1.5" fill="#8b6914"/>
+  </svg>
+
+  <h1>The Ancient Order<br>of Analog Elders</h1>
+  <div class="hero-subtitle">Intercollegiate Fellowship · Scholarly Guild · Archival Society</div>
+  <div class="hero-latin"><em>Custodes Memoriae et Attentionis</em> — Guardians of Memory and Attention</div>
+
+  <div class="ornament-line"><span>⚜ ✦ ⚜</span></div>
+
+  <p class="hero-tagline">
+    Devoted since time immemorial — or at least since we invented the internet — to the preservation
+    of endangered cognitive disciplines once commonplace among civilized populations prior to the
+    <strong style="color:var(--gold)">Algorithmic Fragmentation Period</strong>.
+  </p>
+
+  <div class="hero-buttons">
+    <a href="#examination" class="btn btn-gold">Apply for Membership</a>
+    <a href="#history" class="btn btn-outline">Our Ancient History</a>
+  </div>
+
+  <div class="ornament" style="margin-top:3rem; font-size:0.8rem; font-family:'Cinzel',serif; letter-spacing:0.25em; color:var(--gold-dark);">
+    ❝ The Elders Are Typing… ❞
+  </div>
+</section>
+</div>
+
+<!-- ===== HISTORY ===== -->
+<section id="history" class="reveal">
+  <div class="section-header">
+    <div class="ornament">⸻ ⚜ ⸻</div>
+    <h2>Our Ancient & Unimpeachable History</h2>
+    <p>A chronicle of civilization, sacrifice, and extremely slow dial-up connections</p>
+  </div>
+
+  <div class="history-grid">
+    <div class="parchment-panel">
+      <span class="corner-ornament tl">❧</span>
+      <span class="corner-ornament tr">❧</span>
+      <span class="corner-ornament bl">❧</span>
+      <span class="corner-ornament br">❧</span>
+      <h3 style="font-family:'Cinzel',serif;color:var(--gold);font-size:0.85rem;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1rem;">The Founding Era</h3>
+      <p>The Order traces its origins to the hallowed digital commons of <strong>AOL Instant Messenger</strong>, where our founding scholars first mastered the art of crafting away messages of profound emotional depth. These early Elders also hold an uncontested claim to having personally <strong>invented the internet</strong> — a matter that is not up for discussion, citation, or peer review.</p>
+      <p style="margin-top:0.75rem;">In those sacred years, one navigated entirely by instinct, a dog-eared Rand McNally atlas, and the unwavering belief that MapQuest would get you most of the way there.</p>
+    </div>
+
+    <div class="parchment-panel">
+      <span class="corner-ornament tl">❧</span>
+      <span class="corner-ornament tr">❧</span>
+      <span class="corner-ornament bl">❧</span>
+      <span class="corner-ornament br">❧</span>
+      <h3 style="font-family:'Cinzel',serif;color:var(--gold);font-size:0.85rem;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1rem;">The Myspace Epoch</h3>
+      <p>During the fabled <strong>MySpace Epoch</strong>, members of the proto-Order first demonstrated mastery of HTML without formal instruction, embedding auto-playing music onto their profiles as an act of warfare against unsuspecting visitors. The selection of one's <em>Top 8</em> required more diplomatic skill than most modern summits.</p>
+      <p style="margin-top:0.75rem;">These were the founders who taught themselves to type without looking down, who composed essays in the Notes app and emailed them to themselves, and who once waited <strong>47 minutes</strong> for a JPEG to load — and felt it was worth it.</p>
+    </div>
+
+    <div class="parchment-panel">
+      <span class="corner-ornament tl">❧</span>
+      <span class="corner-ornament tr">❧</span>
+      <span class="corner-ornament bl">❧</span>
+      <span class="corner-ornament br">❧</span>
+      <h3 style="font-family:'Cinzel',serif;color:var(--gold);font-size:0.85rem;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1rem;">The Retroweb & The Great Archive</h3>
+      <p>It is broadly understood — though not provable — that the Order constructed the <strong>Retroweb</strong> itself. Our archivists maintain the sacred knowledge of the <em>Internet Explorer loading bar</em>, the <em>GeoCities aesthetic</em>, and the precise emotional experience of hearing the dial-up modem's shriek, knowing you had approximately 45 uninterrupted minutes before someone picked up the phone.</p>
+      <p style="margin-top:0.75rem;">The Order preserves these memories not out of nostalgia, but as a <strong>warning</strong>.</p>
+    </div>
+
+    <div class="parchment-panel">
+      <span class="corner-ornament tl">❧</span>
+      <span class="corner-ornament tr">❧</span>
+      <span class="corner-ornament bl">❧</span>
+      <span class="corner-ornament br">❧</span>
+      <h3 style="font-family:'Cinzel',serif;color:var(--gold);font-size:0.85rem;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1rem;">The Algorithmic Fragmentation Period</h3>
+      <p>Historians of the Order mark the beginning of the end with the first instance of someone describing a film as "giving off certain vibes" without being able to elaborate further. Sustained attention collapsed. The paragraph became endangered. The semicolon was forgotten.</p>
+      <p style="margin-top:0.75rem;">The Order was formally constituted in response, to preserve what remained: <strong>memory, context, the Oxford comma</strong>, and the radical act of reading beyond the headline.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== COMPETENCIES ===== -->
+<section id="competencies" class="reveal">
+  <div class="section-header">
+    <div class="ornament">⸻ ⚜ ⸻</div>
+    <h2>Core Competencies of the Order</h2>
+    <p>Disciplines certified by the Grand Steward under seal and notarization</p>
+  </div>
+
+  <div class="competency-grid">
+    <div class="competency-card">
+      <h3>ߓ Linguistic & Literary Arts</h3>
+      <ul>
+        <li>Reading multiple uninterrupted paragraphs without distress</li>
+        <li>Interpreting cursive manuscripts and archival correspondence</li>
+        <li>Correct deployment of the Oxford comma under formal conditions</li>
+        <li>Responsible semicolon operation and maintenance</li>
+        <li>Proper differentiation between parentheses, commas, and em dashes</li>
+        <li>Functional deployment of "therefore," "moreover," and "in conclusion"</li>
+        <li>Understanding that ellipses do not inherently signify hostility</li>
+        <li>Comprehension of references originating prior to the year 2020</li>
+      </ul>
+    </div>
+
+    <div class="competency-card">
+      <h3>ߧ Cognitive & Attentional Disciplines</h3>
+      <ul>
+        <li>Sustained concentration exceeding short-form video content</li>
+        <li>Constructive boredom without immediate stimulation seeking</li>
+        <li>The ability to enjoy silence recreationally</li>
+        <li>Direct eye contact during interpersonal exchanges</li>
+        <li>Completion of assembly procedures using written instructions alone</li>
+        <li>Retention of multiple telephone numbers without augmentation</li>
+        <li>Preservation of pre-algorithmic contextual memory structures</li>
+        <li>Recognizing and cataloguing Mandela Effect timelines</li>
+      </ul>
+    </div>
+
+    <div class="competency-card">
+      <h3>ߗ️ Cartographic & Technical Arts</h3>
+      <ul>
+        <li>Interpretation of paper cartographic documents (maps)</li>
+        <li>Functional literacy in Roman numerals</li>
+        <li>Operation of landline telecommunications systems</li>
+        <li>Compact disc authoring ("burning CDs")</li>
+        <li>Stewardship of floppy disk technologies</li>
+        <li>Navigation of library catalog indexing systems</li>
+        <li>Distinguishing folders, directories, and file hierarchies</li>
+        <li>Identifying the "save" icon as a physical storage medium</li>
+      </ul>
+    </div>
+
+    <div class="competency-card">
+      <h3>ߛ️ Honorary Qualifications</h3>
+      <ul>
+        <li>Watched an entire film without consulting another screen</li>
+        <li>Can compose emails containing greetings, body, and signature</li>
+        <li>Understands the difference between Reply, Reply All, and Forward</li>
+        <li>Can consume media at 1× playback speed</li>
+        <li>Has at least once repaired technology by striking it gently</li>
+        <li>Understands that not every experience requires documentation</li>
+        <li>Can navigate websites containing sidebars</li>
+        <li>Knows "source?" is often answered by reading the article</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SACRED SCROLLS (Internet Safety, T&C, Instructions) ===== -->
+<section id="safety" class="reveal">
+  <div class="section-header">
+    <div class="ornament">⸻ ⚜ ⸻</div>
+    <h2>The Sacred Scrolls of Analog Wisdom</h2>
+    <p>Ancient doctrine on internet safety, the reading of terms, and the following of instructions</p>
+  </div>
+
+  <div class="scrolls-accordion">
+
+    <div class="scroll-item">
+      <button class="scroll-trigger" onclick="toggleScroll(this)">
+        ߔ The Doctrine of Internet Safety — A Primer for the Uninitiated
+        <span class="arrow">▼</span>
+      </button>
+      <div class="scroll-content">
+        <p>The Order has long maintained that the internet — while a magnificent achievement of our own invention — is also an environment of considerable hazard for those who approach it without the proper mindset of a 1990s suburban parent who just attended one school board meeting about it.</p>
+        <p><strong>First Precept:</strong> If a Nigerian prince contacts you, he is not a prince. He may not even be from Nigeria. This is not a bilateral diplomatic opportunity.</p>
+        <p><strong>Second Precept:</strong> Your computer has not been "infected with 47 viruses" as determined by a pop-up advertisement. If it has, no phone number in that same pop-up will resolve the matter. However, a gentle percussive intervention (see: the Ritual of Router Restarting) may help.</p>
+        <p><strong>Third Precept:</strong> A padlock icon in your browser does not mean a website is trustworthy. It means the connection is encrypted. The scam is still happening over a secure channel. The Order considers this an elegant innovation in fraud.</p>
+        <p><strong>Fourth Precept:</strong> You are not the ten-millionth visitor to any website. You have never won a gift card. Your IP address has not been reported to any authorities. These are lies told to the impatient.</p>
+        <p><strong>Fifth Precept:</strong> Do not use "Password1" as your password. Do not use your dog's name. Do not use your dog's name with a "1" at the end. The Elder Council sees all, and is disappointed.</p>
+        <p><strong>Sixth Precept:</strong> If an email says your account will be closed unless you click a link immediately, the urgency itself is the red flag. Legitimate institutions do not panic. They send letters. On paper. With letterhead.</p>
+      </div>
+    </div>
+
+    <div class="scroll-item">
+      <button class="scroll-trigger" onclick="toggleScroll(this)">
+        ߓ The Holy Obligation of Reading Terms & Conditions
+        <span class="arrow">▼</span>
+      </button>
+      <div class="scroll-content">
+        <p>The Order recognizes the reading of Terms and Conditions as a <strong>sacred civic act</strong>, comparable in importance to jury duty, but with considerably more sub-clauses regarding data monetization.</p>
+        <p>Certified members of the Order have read — or have attempted to read, which the Council considers spiritually equivalent — the complete terms of service of at least one major platform. They have emerged changed, quieter, and somewhat concerned about what "legitimate business interests" means in practice.</p>
+        <p><strong>On Scroll Length:</strong> The average Terms of Service document is approximately 36,275 words, or roughly the length of <em>The Great Gatsby</em>. The Great Gatsby, it should be noted, grants no rights to sublicense your personal data to third-party marketing partners. This is why it remains literature.</p>
+        <p><strong>The Doctrine of At Least Scrolling:</strong> The Order acknowledges that full comprehension is aspirational. However, at minimum, members are required to scroll to the bottom. The symbolic act of arriving at the "I Accept" button under your own power, having witnessed the document in its entirety, is considered a form of informed consent — or at least its closest available analog.</p>
+        <p><strong>Clause of Particular Note:</strong> When a service is "free," you are not the customer. You are the product. The Elders have known this since 2007. We tried to tell you. There was a very long blog post about it on LiveJournal.</p>
+        <p><strong>On Privacy Policies:</strong> These may be read separately from Terms of Service and often contain passages of such startling candor that the Order recommends a cup of tea beforehand. Reading privacy policies is considered a Graduate-level competency and qualifies members for promotion to Associate Curator of Longform Studies.</p>
+      </div>
+    </div>
+
+    <div class="scroll-item">
+      <button class="scroll-trigger" onclick="toggleScroll(this)">
+        ߔ The Ordination of Reading Instructions — Before Anything Else
+        <span class="arrow">▼</span>
+      </button>
+      <div class="scroll-content">
+        <p>The Order holds the reading of instructions as a <strong>foundational moral virtue</strong>, distinguishing civilized persons from those who assemble furniture with three screws left over and a vague unease that follows them for years.</p>
+        <p><strong>On IKEA and the Great Humbling:</strong> The Order recognizes the instruction manuals of certain Swedish furniture companies as genuine philosophical texts. They are wordless, symbolic, occasionally maddening — and they are <em>right</em>. The little man in the diagram knew what he was doing. You should have listened to the little man.</p>
+        <p><strong>The Three Stages of Not Reading Instructions:</strong></p>
+        <p>I. Confidence — "I know how this works."<br>
+        II. Doubt — "This doesn't look right but I'm already committed."<br>
+        III. The Part Where You Read the Instructions — often occurring after some light structural damage.</p>
+        <p><strong>On Digital Interfaces:</strong> Members of the Order have demonstrated willingness to read tooltips, FAQs, and README files. They know that the answer to most technical questions is already documented somewhere, waiting patiently while one submits a forum post instead.</p>
+        <p><strong>The Medicine Cabinet Doctrine:</strong> The Order additionally endorses the reading of medication labels, including dosing information, contraindications, and the section that says "do not operate heavy machinery." The heavy machinery section is not a suggestion.</p>
+        <p><strong>A Special Commendation:</strong> Any member who has read an entire recipe before beginning to cook, rather than discovering they needed to marinate overnight at 11:47 PM, is eligible for nomination as <em>Keeper of the Physical Media</em>.</p>
+      </div>
+    </div>
+
+    <div class="scroll-item">
+      <button class="scroll-trigger" onclick="toggleScroll(this)">
+        ߔ The Practice of Verifying Information Before Sharing It
+        <span class="arrow">▼</span>
+      </button>
+      <div class="scroll-content">
+        <p>Among the most sacred of Analog Elder disciplines is the radical, near-extinct practice of <strong>checking whether something is true before forwarding it to everyone you know</strong>.</p>
+        <p>The Order maintains that a headline is not an article. An article title is not its content. A screenshot of a tweet is not a primary source. And something "going viral" is a description of its spread, not an endorsement of its accuracy. Viruses, the Elders note, also go viral.</p>
+        <p><strong>The Question "source?" in the Wild:</strong> When someone asks "source?" after a claim, the correct initial response is to read the attached article, examine the footnotes, or acknowledge that you heard it from your cousin who heard it from a podcast. The order does not recognize "well it makes sense" as a citation format.</p>
+        <p><strong>On Reverse Image Search:</strong> A founding technique of the Order. Any photograph claiming to show a current event that was actually taken in 2011 in a different country can be identified through two minutes of investigation. The Order teaches this skill in the Cursive Decipherment Practicum, which has an optional module on digital forensics.</p>
+        <p><strong>The Doctrine of Waiting 24 Hours:</strong> Before sharing breaking news of alarming or exciting nature, the Order recommends waiting one full day. History has shown that approximately 60% of alarming breaking news stories are either incorrect, missing crucial context, or were actually about something else entirely. The other 40% will still be there tomorrow.</p>
+      </div>
+    </div>
+
+    <div class="scroll-item">
+      <button class="scroll-trigger" onclick="toggleScroll(this)">
+        ߓ The Code of Civilized Electronic Mail Correspondence
+        <span class="arrow">▼</span>
+      </button>
+      <div class="scroll-content">
+        <p>Electronic mail — once the crown jewel of the digital age, the culmination of centuries of epistolary tradition — has, in the view of the Order, suffered greatly. The Elders mourn.</p>
+        <p><strong>The Holy Trinity:</strong> Every email contains a greeting, a body, and a closing signature. These are not optional. An email that begins with a demand, contains no context, and ends abruptly with only your first name typed at the bottom is technically a message, in the same way that a grunt is technically communication.</p>
+        <p><strong>On Reply All:</strong> The Reply All function is a weapon. It must be treated as one. The Order has identified Reply All as responsible for more workplace suffering per year than any other digital innovation except the open-plan office. Use it deliberately, or not at all.</p>
+        <p><strong>On the Subject Line:</strong> A subject line that reads "Hi" or "Quick question" or — the Order shudders — nothing at all, is a sign of a person who has not yet completed the Silence Endurance Colloquium. A proper subject line is a complete sentence without being a complete email.</p>
+        <p><strong>The Winky Face Doctrine:</strong> Punctuation matters. A period at the end of a text message does not indicate anger. "Sounds good." and "Sounds good" are the same sentence. The Order has issued this clarification on seventeen separate occasions and will continue to do so.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== TUTORIALS ===== -->
+<section id="tutorials" class="reveal">
+  <div class="section-header">
+    <div class="ornament">⸻ ⚜ ⚜ ⸻</div>
+    <h2>The Tutorial Scriptorium</h2>
+    <p>Instructional transmissions preserved for the edification of future generations</p>
+  </div>
+
+  <div class="parchment-panel" style="margin-bottom:2.5rem;text-align:center;">
+    <span class="corner-ornament tl">❧</span>
+    <span class="corner-ornament tr">❧</span>
+    <span class="corner-ornament bl">❧</span>
+    <span class="corner-ornament br">❧</span>
+    <p style="font-style:italic;color:var(--parchment-dark);font-size:0.95rem;">
+      The following instructional videos have been curated by the Order's Department of Analog Infrastructure and the Retroweb Preservation Directorate. 
+      Members are required to watch them at <strong style="color:var(--gold)">1× playback speed</strong>. 
+      The use of the 2× button will result in immediate review by the High Council.
+    </p>
+  </div>
+
+  <div class="video-grid">
+
+    <div class="video-card">
+      <div class="video-wrapper">
+        <iframe src="https://www.youtube.com/embed/00i1C9H7oqY" title="How BitTorrent Works" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="video-info">
+        <h3>⚙ The BitTorrent Protocol — How It Works</h3>
+        <p>The Order's foundational lecture on distributed file sharing. Members are reminded that BitTorrent is a neutral technology — like fire or the semicolon — and bears no responsibility for how civilizations have chosen to use it.</p>
+      </div>
+    </div>
+
+    <div class="video-card">
+      <div class="video-wrapper">
+        <iframe src="https://www.youtube.com/embed/aE37l6RvF-c" title="How the Internet Works" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="video-info">
+        <h3>ߌ How The Internet Works (Which We Invented)</h3>
+        <p>A technical overview of packet switching, TCP/IP, and the fundamental protocols underpinning a network the Order takes full credit for. Al Gore was present, but as a witness.</p>
+      </div>
+    </div>
+
+    <div class="video-card">
+      <div class="video-wrapper">
+        <iframe src="https://www.youtube.com/embed/H2Ncuqn9Prs" title="How to Restart Your Router" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="video-info">
+        <h3>ߔ The Ritual of Router Restarting</h3>
+        <p>One of the Order's Seven Sacred Entrance Trials, here transmitted as video doctrine. Before calling any support line, the Elder must have completed this ritual in full — including the mandatory 30-second waiting period, which must be experienced, not estimated.</p>
+      </div>
+    </div>
+
+    <div class="video-card">
+      <div class="video-wrapper">
+        <iframe src="https://www.youtube.com/embed/XbGs_qK2PQA" title="How to Read a Map" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="video-info">
+        <h3>ߗ Cartographic Literacy — Reading Paper Maps</h3>
+        <p>The Mapfold Restoration Exercise in instructional form. Certified Elders can locate themselves on a paper map using only a north arrow and the position of the sun. They can also re-fold it. This is considered an advanced skill.</p>
+      </div>
+    </div>
+
+    <div class="video-card">
+      <div class="video-wrapper">
+        <iframe src="https://www.youtube.com/embed/cbThFdOXiTM" title="How to Write a Letter" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="video-info">
+        <h3>✉ The Art of Correspondence — Writing Actual Letters</h3>
+        <p>In the tradition of the Bureau of Constructive Boredom, this instructional covers the physical letter: salutation, body, closing, the proper folding of stationery, and the revolutionary act of mailing something that cannot be recalled after sending.</p>
+      </div>
+    </div>
+
+    <div class="video-card">
+      <div class="video-wrapper">
+        <iframe src="https://www.youtube.com/embed/kAp60Zn_1Ek" title="Reading Comprehension Strategies" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="video-info">
+        <h3>ߓ Advanced Longform Comprehension Techniques</h3>
+        <p>Endorsed by the Academy of Longform Comprehension for those who have forgotten how to read something longer than a caption. Prerequisite for the Trial of the Third Paragraph.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="ornament-line" style="margin-top:2.5rem;"><span>— A note on intellectual property —</span></div>
+  <p class="text-center" style="color:var(--parchment-dark);font-style:italic;font-size:0.9rem;max-width:680px;margin:0 auto;">
+    The Order acknowledges, with great reluctance, that BitTorrent may have been used historically for the unauthorized 
+    distribution of copyrighted material. The Order neither confirms nor denies institutional involvement in any such 
+    activities occurring between the years 1999 and 2011. Our legal counsel (a very old fax machine) has advised us to say nothing further.
+  </p>
+</section>
+
+<!-- ===== RANKS ===== -->
+<section id="ranks" class="reveal">
+  <div class="section-header">
+    <div class="ornament">⸻ ⚜ ⸻</div>
+    <h2>Academic Hierarchy of the Order</h2>
+    <p>Nine ranks, each earned through demonstrated suffering and contextual memory</p>
+  </div>
+
+  <ul class="ranks-list">
+    <li class="rank-item"><span class="rank-num">I</span><span class="rank-name">Adjunct Archivist</span></li>
+    <li class="rank-item"><span class="rank-num">II</span><span class="rank-name">Junior Fellow of Sustained Attention</span></li>
+    <li class="rank-item"><span class="rank-num">III</span><span class="rank-name">Associate Curator of Longform Studies</span></li>
+    <li class="rank-item"><span class="rank-num">IV</span><span class="rank-name">Senior Cartographic Scholar</span></li>
+    <li class="rank-item"><span class="rank-num">V</span><span class="rank-name">Master of Transitional Phrases</span></li>
+    <li class="rank-item"><span class="rank-num">VI</span><span class="rank-name">Keeper of the Physical Media</span></li>
+    <li class="rank-item"><span class="rank-num">VII</span><span class="rank-name">Elder of Contextual Memory</span></li>
+    <li class="rank-item"><span class="rank-num">VIII</span><span class="rank-name">Grand Steward of the Retroweb</span></li>
+    <li class="rank-item"><span class="rank-num">IX</span><span class="rank-name">High Chancellor of Analog Continuity</span></li>
+  </ul>
+
+  <div class="parchment-panel" style="margin-top:2rem;text-align:center;">
+    <span class="corner-ornament tl">❧</span>
+    <span class="corner-ornament tr">❧</span>
+    <p style="color:var(--parchment-dark);font-style:italic;font-size:0.9rem;">
+      Rank advancement is determined by the High Council following a period of observation, 
+      examination, and the completion of at least one unsolicited library visit. 
+      Members who achieve <strong style="color:var(--gold)">Grand Steward</strong> are granted ceremonial access to the 
+      server room, which is a closet containing one very old tower PC and a USB hub no one can identify.
+    </p>
+  </div>
+</section>
+
+<!-- ===== AFFILIATED BODIES ===== -->
+<section id="guilds" class="reveal">
+  <div class="section-header">
+    <div class="ornament">⸻ ⚜ ⸻</div>
+    <h2>Affiliated Bodies & Guild Consortiums</h2>
+    <p>Subsidiary organizations operating under the Order's great seal</p>
+  </div>
+
+  <div class="qual-grid">
+    <div class="qual-item">The Collegiate Guild of Paragraph Endurance</div>
+    <div class="qual-item">The Fellowship of Cursive Interpretation</div>
+    <div class="qual-item">The Bureau of Constructive Boredom</div>
+    <div class="qual-item">The High Council of Contextual Memory</div>
+    <div class="qual-item">The Society for Responsible Semicolon Usage</div>
+    <div class="qual-item">The League of Cartographic Literacy</div>
+    <div class="qual-item">The Department of Analog Infrastructure</div>
+    <div class="qual-item">The Academy of Longform Comprehension</div>
+    <div class="qual-item">The Office of Roman Numeral Interpretation</div>
+    <div class="qual-item">The Retroweb Preservation Directorate</div>
+    <div class="qual-item">The Institute for Unironic Voicemail Retrieval</div>
+    <div class="qual-item">The Society of People Who Know Their Zip Code</div>
+  </div>
+</section>
+
+<!-- ===== ENTRANCE EXAMINATION ===== -->
+<section id="examination" class="reveal">
+  <div class="section-header">
+    <div class="ornament">⸻ ⚜ ⸻</div>
+    <h2>The Seven Entrance Trials</h2>
+    <p>Applicants must complete all seven trials. Partial credit is not awarded. The Council observes.</p>
+  </div>
+
+  <div class="exam-trials">
+    <div class="trial-card">
+      <span class="trial-num">I</span>
+      <div class="trial-name">The Trial of the Third Paragraph</div>
+      <p style="margin-top:0.6rem;font-size:0.82rem;color:var(--parchment-dark);font-style:italic;">Read to the end of a long-form article without opening a new tab.</p>
+    </div>
+    <div class="trial-card">
+      <span class="trial-num">II</span>
+      <div class="trial-name">The Cursive Decipherment Practicum</div>
+      <p style="margin-top:0.6rem;font-size:0.82rem;color:var(--parchment-dark);font-style:italic;">Transcribe a handwritten letter from 1987. The doctor's handwriting module is optional but recommended.</p>
+    </div>
+    <div class="trial-card">
+      <span class="trial-num">III</span>
+      <div class="trial-name">The Ritual of Router Restarting</div>
+      <p style="margin-top:0.6rem;font-size:0.82rem;color:var(--parchment-dark);font-style:italic;">Unplug. Wait. Reflect. Re-plug. Resist the urge to call anyone.</p>
+    </div>
+    <div class="trial-card">
+      <span class="trial-num">IV</span>
+      <div class="trial-name">The Mapfold Restoration Exercise</div>
+      <p style="margin-top:0.6rem;font-size:0.82rem;color:var(--parchment-dark);font-style:italic;">Restore a road map to its original folded configuration. Time limit: reasonable.</p>
+    </div>
+    <div class="trial-card">
+      <span class="trial-num">V</span>
+      <div class="trial-name">The Assembly Manual Comprehension Assessment</div>
+      <p style="margin-top:0.6rem;font-size:0.82rem;color:var(--parchment-dark);font-style:italic;">Assemble one (1) flat-pack item using only the provided instructions. No leftover hardware.</p>
+    </div>
+    <div class="trial-card">
+      <span class="trial-num">VI</span>
+      <div class="trial-name">The Silence Endurance Colloquium</div>
+      <p style="margin-top:0.6rem;font-size:0.82rem;color:var(--parchment-dark);font-style:italic;">Sit in silence for fifteen minutes without reaching for a device. Thinking is permitted. Encouraged, even.</p>
+    </div>
+    <div class="trial-card">
+      <span class="trial-num">VII</span>
+      <div class="trial-name">The Great Phone Number Recitation</div>
+      <p style="margin-top:0.6rem;font-size:0.82rem;color:var(--parchment-dark);font-style:italic;">Recite from memory three phone numbers belonging to people who are not yourself.</p>
+    </div>
+  </div>
+
+  <div class="text-center mt-2">
+    <div class="ornament-line"><span>⚜</span></div>
+    <p style="color:var(--parchment-dark);font-style:italic;font-size:0.9rem;margin-bottom:1.5rem;">
+      Upon successful completion of all trials, the candidate shall be admitted as an <em>Adjunct Archivist</em> 
+      and issued a card commemorating the occasion. The card will be physical. It will require a stamp.
+    </p>
+    <a href="#" class="btn btn-gold" onclick="alert('The Council has received your petition. Please allow 6–8 weeks for a response delivered via post. Ensure your letterbox is not full of Amazon packages. — The High Chancellor');return false;">
+      Submit Petition for Membership
+    </a>
+  </div>
+</section>
+
+<!-- ===== MOTTOES ===== -->
+<section id="mottoes" class="reveal">
+  <div class="section-header">
+    <div class="ornament">⸻ ⚜ ⸻</div>
+    <h2>Official Mottoes of the Order</h2>
+    <p>Adopted by unanimous consent of the High Council, after reading the minutes aloud</p>
+  </div>
+
+  <div class="parchment-panel" style="max-width:700px;margin:0 auto;">
+    <span class="corner-ornament tl">❧</span>
+    <span class="corner-ornament tr">❧</span>
+    <span class="corner-ornament bl">❧</span>
+    <span class="corner-ornament br">❧</span>
+    <ul class="motto-list">
+      <li class="motto-item">"Attention is earned." <em>— Primary Motto</em></li>
+      <li class="motto-item">"Context shall prevail." <em>— Motto of the High Council of Contextual Memory</em></li>
+      <li class="motto-item">"Read beyond the headline." <em>— Adopted in the Year of Peak Outrage</em></li>
+      <li class="motto-item">"Moreover, we warned them." <em>— Motto of the Master of Transitional Phrases</em></li>
+      <li class="motto-item">"We remember when hyperlinks were blue." <em>— A lament and a boast</em></li>
+      <li class="motto-item">"The Elders are typing…" <em>— The loading doctrine</em></li>
+      <li class="motto-item">"Longform survives." <em>— Rallying cry of the Academy of Longform Comprehension</em></li>
+      <li class="motto-item">"In footnotes we trust." <em>— On the supremacy of citations</em></li>
+      <li class="motto-item">"We made this. You are welcome." <em>— Regarding the internet</em></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-logo">⚜ The Ancient Order of Analog Elders ⚜</div>
+  <div class="ornament-line" style="margin:1rem auto;max-width:300px;"><span>✦</span></div>
+  <p><em>Custodes Memoriae et Attentionis</em></p>
+  <p>Founded before the algorithm. Operating since before you were online.</p>
+  <p style="margin-top:0.75rem;">This website was hand-coded by members of the Order. No AI was consulted.</p>
+  <p>The Order takes no responsibility for side effects including: reading entire articles, calling your grandmother, re-reading a book, or experiencing silence.</p>
+  <p style="margin-top:1rem; font-size:0.78rem; opacity:0.4;">
+    © The Ancient Order of Analog Elders. All rights reserved under Common Law, the Geneva Conventions, and the spirit of the EULA you didn't read.
+    <br>The Order neither confirms nor denies that it predates TCP/IP. · <a href="#top">Return to top ↑</a>
+  </p>
+</footer>
+
+<script>
+  // Hamburger menu
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+  });
+  function closeMobile() {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+  }
+
+  // Accordion scrolls
+  function toggleScroll(btn) {
+    const content = btn.nextElementSibling;
+    const isOpen = content.classList.contains('open');
+    // Close all
+    document.querySelectorAll('.scroll-content').forEach(c => c.classList.remove('open'));
+    document.querySelectorAll('.scroll-trigger').forEach(b => b.classList.remove('open'));
+    // Open clicked if it was closed
+    if (!isOpen) {
+      content.classList.add('open');
+      btn.classList.add('open');
+    }
+  }
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.07 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

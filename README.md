@@ -84,7 +84,7 @@ If you wish to formally petition for membership rather than just contributing to
 
 Membership is open to anyone regardless of age. Knowledge and demonstrated skill are the only criteria. Familiarity with HTML earns bonus consideration.
 
-Upon acceptance you will be expected to join the Fediverse if you are not already there. The Elders do not reside on platforms that sell them.
+Upon acceptance you will be expected to join the Fediverse if you are not already there.
 
 ---
 
